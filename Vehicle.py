@@ -1,12 +1,7 @@
 import math
 from PVector import PVector
 import math
-# from UtilitiesMacroAndConstant import *
-MR_height = 30
-MR_width = 48
-MR_angle = math.atan(MR_height / MR_width)
-MR_distance_from_center = math.sqrt((MR_height / 2) * (MR_height / 2) + (MR_width / 2) * (MR_width / 2))
-SCALE = 10
+from UtilitiesMacroAndConstant import *
 
 class Vehicle:
     def __init__(self, *args, **kwargs):
@@ -100,27 +95,27 @@ class Vehicle:
         self.front_center_target.set(self.center.x + dx, self.center.y + dy)
 
     def calculate_front_left_target(self):
-        temp_angle = self.angle - MR_angle
-        dx = MR_distance_from_center * math.cos(temp_angle)
-        dy = MR_distance_from_center * math.sin(temp_angle)
+        temp_angle = self.angle - MR_ANGLE
+        dx = MR_DISTANCE_FROM_CENTER * math.cos(temp_angle)
+        dy = MR_DISTANCE_FROM_CENTER * math.sin(temp_angle)
         self.front_left_target.set(self.center.x + dx, self.center.y + dy)
 
     def calculate_front_right_target(self):
-        temp_angle = self.angle + MR_angle
-        dx = MR_distance_from_center * math.cos(temp_angle)
-        dy = MR_distance_from_center * math.sin(temp_angle)
+        temp_angle = self.angle + MR_ANGLE
+        dx = MR_DISTANCE_FROM_CENTER * math.cos(temp_angle)
+        dy = MR_DISTANCE_FROM_CENTER * math.sin(temp_angle)
         self.front_right_target.set(self.center.x + dx, self.center.y + dy)
 
     def calculate_rear_left_target(self):
-        temp_angle = self.angle + MR_angle - math.pi
-        dx = MR_distance_from_center * math.cos(temp_angle)
-        dy = MR_distance_from_center * math.sin(temp_angle)
+        temp_angle = self.angle + MR_ANGLE - math.pi
+        dx = MR_DISTANCE_FROM_CENTER * math.cos(temp_angle)
+        dy = MR_DISTANCE_FROM_CENTER * math.sin(temp_angle)
         self.rear_left_target.set(self.center.x + dx, self.center.y + dy)
 
     def calculate_rear_right_target(self):
-        temp_angle = self.angle - MR_angle - math.pi
-        dx = MR_distance_from_center * math.cos(temp_angle)
-        dy = MR_distance_from_center * math.sin(temp_angle)
+        temp_angle = self.angle - MR_ANGLE - math.pi
+        dx = MR_DISTANCE_FROM_CENTER * math.cos(temp_angle)
+        dy = MR_DISTANCE_FROM_CENTER * math.sin(temp_angle)
         self.rear_right_target.set(self.center.x + dx, self.center.y + dy)
 
     def update(self):
@@ -139,7 +134,7 @@ class Vehicle:
         target = PVector(tx, ty)
         dir = PVector.sub2Vectors(target, self.center)
         accel = dir.copy()
-        accel.setMag(accel.mag() / 2)
+        accel.setMag(accel.mag() / MR_SCALE)
 
         # print("Important: ", accel.mag())
         self.angle = dir.heading()
@@ -158,7 +153,6 @@ class Vehicle:
         # Update the frame
         self.temporary_left_frame = PVector.sub2Vectors(self.front_left, self.rear_left)
         self.temporary_right_frame = PVector.sub2Vectors(self.front_right, self.rear_right)
-
 
         self.vel_rear_center.setMag(self.vel_rear_center.mag() / SCALE)
         self.rear_center.add(self.vel_rear_center)
@@ -196,7 +190,7 @@ class Vehicle:
 if __name__ == '__main__':
     center_x = 400
     center_y = 400
-    vehicle = Vehicle(center_x, center_y, MR_width / 2)
+    vehicle = Vehicle(center_x, center_y, MR_WIDTH / 2)
 
     # print(vehicle.rear_center_target.x, vehicle.rear_center_target.y, vehicle.front_center_target.x,
     #       vehicle.front_center_target.y)
