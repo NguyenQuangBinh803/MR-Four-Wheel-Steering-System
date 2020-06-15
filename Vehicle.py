@@ -1,9 +1,9 @@
 import math
 from PVector import PVector
 import math
-
-MR_height = 100
-MR_width = 200
+# from UtilitiesMacroAndConstant import *
+MR_height = 30
+MR_width = 48
 MR_angle = math.atan(MR_height / MR_width)
 MR_distance_from_center = math.sqrt((MR_height / 2) * (MR_height / 2) + (MR_width / 2) * (MR_width / 2))
 SCALE = 10
@@ -55,6 +55,10 @@ class Vehicle:
         self.vel_front_center = PVector.sub2Vectors(self.front_center_target, self.front_center)
         self.vel_front_right = PVector.sub2Vectors(self.front_right_target, self.front_right)
         self.vel_front_left = PVector.sub2Vectors(self.front_left_target, self.front_left)
+
+        # Real frame left and right
+        self.temporary_left_frame = PVector.sub2Vectors(self.front_left, self.rear_left)
+        self.temporary_right_frame = PVector.sub2Vectors(self.front_right, self.rear_right)
 
         if len(args) == 3:
             self.center = PVector(args[0], args[1])
@@ -135,7 +139,7 @@ class Vehicle:
         target = PVector(tx, ty)
         dir = PVector.sub2Vectors(target, self.center)
         accel = dir.copy()
-        accel.setMag(accel.mag() / 50)
+        accel.setMag(accel.mag() / 2)
 
         # print("Important: ", accel.mag())
         self.angle = dir.heading()
@@ -150,6 +154,11 @@ class Vehicle:
         self.vel_front_center = PVector.sub2Vectors(self.front_center_target, self.front_center)
         self.vel_front_right = PVector.sub2Vectors(self.front_right_target, self.front_right)
         self.vel_front_left = PVector.sub2Vectors(self.front_left_target, self.front_left)
+
+        # Update the frame
+        self.temporary_left_frame = PVector.sub2Vectors(self.front_left, self.rear_left)
+        self.temporary_right_frame = PVector.sub2Vectors(self.front_right, self.rear_right)
+
 
         self.vel_rear_center.setMag(self.vel_rear_center.mag() / SCALE)
         self.rear_center.add(self.vel_rear_center)
@@ -168,6 +177,8 @@ class Vehicle:
 
         self.vel_rear_right.setMag(self.vel_rear_right.mag() / SCALE)
         self.rear_right.add(self.vel_rear_right)
+
+
 
         # print("Front_left_heading ",self.vel_front_right.heading())
         # print("Front_left_heading ", self.prev_front_left_ang)
