@@ -1,16 +1,21 @@
-import os
 import re
-dislocation = []
-cmd_vel = []
-vel_angular = []
-angle = []
-sampling_time = []
-speed_command = []
-steering_command = []
+
+DEBUG_MODE = False
 
 
-if __name__ == "__main__":
-    f = open('202007_test_data/20200704_1207_test_result_hardware')
+def nav_test_data_aquisition(filename):
+    '''
+
+    :param filename:
+    :return:
+    '''
+    dislocation = []
+    cmd_vel = []
+    angle = []
+    speed_command = []
+    steering_command = []
+
+    f = open(filename)
     p = re.compile(r'\d+\.\d+')
     integer = re.compile(r'\d+')
     for line in f:
@@ -28,22 +33,20 @@ if __name__ == "__main__":
             speed_command_string = re.search("n,(.*)", string.group(1))
             steer_command_string = re.search("q,(.*)", string.group(1))
             if speed_command_string:
-                print(speed_command_string.group(1))
                 if len(integer.findall(speed_command_string.group(1))) > 4:
                     speed_command.append(p.findall(speed_command_string.group(1)))
                 else:
                     speed_command.append(integer.findall(speed_command_string.group(1)))
-                # speed_command.append(integer.findall(speed_command_string.group(1)))
             if steer_command_string:
 
                 if len(integer.findall(steer_command_string.group(1))) > 4:
                     steering_command.append(p.findall(steer_command_string.group(1)))
                 else:
                     steering_command.append(integer.findall(steer_command_string.group(1)))
-            # angular = re.search("time](.*)Time", string.group(1))
-            print(string.group(1))
-            # re.search("n,(.*)", string.group(1))
-            # vel_modulus
+    return dislocation, angle, cmd_vel, speed_command, steering_command
+
+if __name__ == "__main__":
+    dislocation, angle, cmd_vel, speed_command, steering_command = nav_test_data_aquisition('202007_test_data/20200704_1207_test_result_hardware')
 
     # Unit test
     # for steer in steering_command:
