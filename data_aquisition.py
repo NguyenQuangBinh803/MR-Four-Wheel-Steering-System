@@ -38,11 +38,13 @@ def nav_test_data_aquisition(filename):
                 else:
                     speed_command.append(integer.findall(speed_command_string.group(1)))
             if steer_command_string:
-
+                print(steer_command_string.group(1))
                 if len(integer.findall(steer_command_string.group(1))) > 4:
                     steering_command.append(p.findall(steer_command_string.group(1)))
                 else:
                     steering_command.append(integer.findall(steer_command_string.group(1)))
+            # print(string.group(1))
+
     # Convert str data to float
     steering_command = [[float(y) for y in x] for x in steering_command]
     cmd_vel = [[float(y) for y in x] for x in cmd_vel]
@@ -50,7 +52,9 @@ def nav_test_data_aquisition(filename):
     return dislocation, angle, cmd_vel, speed_command, steering_command
 
 if __name__ == "__main__":
-    dislocation, angle, cmd_vel, speed_command, steering_command = nav_test_data_aquisition('202007_test_data/20200704_1207_test_result_hardware')
+    # dislocation, angle, cmd_vel, speed_command, steering_command = nav_test_data_aquisition('202007_test_data/20200704_1207_test_result_hardware')
+    dislocation, angle, cmd_vel, speed_command, steering_command = nav_test_data_aquisition('202007_test_data/20200706_0945_test_result_hardware')
+
 
     # Unit test
     # for steer in steering_command:

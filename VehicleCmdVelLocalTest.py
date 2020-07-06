@@ -11,9 +11,8 @@ if __name__ == "__main__":
     center_y = 0
     vehicle = Vehicle(center_x, center_y, MR_WIDTH / 2)
 
-    # print(vehicle.rear_center_target.x, vehicle.rear_center_target.y, vehicle.front_center_target.x,
-    #       vehicle.front_center_target.y)
-
+    # Testcase 1: Validate target point and real point at the beginning
+    print('Validate test ==== Before apply displacement')
     print("Target points")
     print(vehicle.front_left_target.x, vehicle.front_left_target.y, vehicle.front_right_target.x,
           vehicle.front_right_target.y)
@@ -27,16 +26,10 @@ if __name__ == "__main__":
           vehicle.rear_right.y)
 
     print('Validate test ==== After apply displacement')
-    # vehicle.follow(224.0, 158.0)
-    
+
     for cmd in cmd_vel:
         dislocation_vector = PVector.sub2Vectors(vehicle.front_center, vehicle.center)
-
-        # print(dislocation_vector.mag(), cmd[0])
-        dislocation_vector.setMag(cmd[0]*60)
         dislocation_vector.rotate(cmd[1])
         vehicle.follow_vector(dislocation_vector)
-        
-        print(vehicle.vel_front_left.heading()*180/math.pi, vehicle.vel_front_right.heading()*180/math.pi, vehicle.vel_rear_left.heading()*180/math.pi, vehicle.vel_rear_right.heading()*180/math.pi)
-        # print()
+        print( vehicle.vel_front_left.heading()*180/math.pi, vehicle.vel_front_right.heading()*180/math.pi, vehicle.vel_rear_left.heading()*180/math.pi, vehicle.vel_rear_right.heading()*180/math.pi)
         
