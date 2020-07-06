@@ -187,6 +187,61 @@ class Vehicle:
         self.prev_rear_right_ang = self.vel_rear_right.heading()
 
 
+    def follow_vector(self, dislocation_vector):
+        
+        accel = dislocation_vector.copy()
+        accel.setMag(accel.mag() / MR_SCALE)
+
+        # print("Important: ", accel.mag())
+        self.angle = dislocation_vector.heading()
+        # print("Important: ", self.angle)
+        self.center.add(accel)
+
+        self.update()
+
+        self.vel_rear_left = PVector.sub2Vectors(self.rear_left_target, self.rear_left)
+        self.vel_rear_right = PVector.sub2Vectors(self.rear_right_target, self.rear_right)
+        self.vel_rear_center = PVector.sub2Vectors(self.rear_center_target, self.rear_center)
+        self.vel_front_center = PVector.sub2Vectors(self.front_center_target, self.front_center)
+        self.vel_front_right = PVector.sub2Vectors(self.front_right_target, self.front_right)
+        self.vel_front_left = PVector.sub2Vectors(self.front_left_target, self.front_left)
+
+        # Update the frame
+        self.temporary_left_frame = PVector.sub2Vectors(self.front_left, self.rear_left)
+        self.temporary_right_frame = PVector.sub2Vectors(self.front_right, self.rear_right)
+
+        self.vel_rear_center.setMag(self.vel_rear_center.mag() / SCALE)
+        self.rear_center.add(self.vel_rear_center)
+
+        self.vel_front_center.setMag(self.vel_front_center.mag() / SCALE)
+        self.front_center.add(self.vel_front_center)
+
+        self.vel_front_left.setMag(self.vel_front_left.mag() / SCALE)
+        self.front_left.add(self.vel_front_left)
+
+        self.vel_front_right.setMag(self.vel_front_right.mag() / SCALE)
+        self.front_right.add(self.vel_front_right)
+
+        self.vel_rear_left.setMag(self.vel_rear_left.mag() / SCALE)
+        self.rear_left.add(self.vel_rear_left)
+
+        self.vel_rear_right.setMag(self.vel_rear_right.mag() / SCALE)
+        self.rear_right.add(self.vel_rear_right)
+
+
+
+        # print("Front_left_heading ",self.vel_front_right.heading())
+        # print("Front_left_heading ", self.prev_front_left_ang)
+        self.steering_front_left = self.vel_front_left.heading() - self.prev_front_left_ang
+        self.steering_front_right = self.vel_front_right.heading() - self.prev_front_right_ang
+        self.steering_rear_left = self.vel_rear_left.heading() - self.prev_rear_left_ang
+        self.steering_rear_right = self.vel_rear_right.heading() - self.prev_rear_right_ang
+
+        self.prev_front_left_ang = self.vel_front_left.heading()
+        self.prev_front_right_ang = self.vel_front_right.heading()
+        self.prev_rear_left_ang = self.vel_rear_left.heading()
+        self.prev_rear_right_ang = self.vel_rear_right.heading()
+
 if __name__ == '__main__':
     center_x = 400
     center_y = 400

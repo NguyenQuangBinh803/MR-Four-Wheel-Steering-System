@@ -43,6 +43,10 @@ def nav_test_data_aquisition(filename):
                     steering_command.append(p.findall(steer_command_string.group(1)))
                 else:
                     steering_command.append(integer.findall(steer_command_string.group(1)))
+    # Convert str data to float
+    steering_command = [[float(y) for y in x] for x in steering_command]
+    cmd_vel = [[float(y) for y in x] for x in cmd_vel]
+
     return dislocation, angle, cmd_vel, speed_command, steering_command
 
 if __name__ == "__main__":
@@ -58,13 +62,12 @@ if __name__ == "__main__":
     # for ang in angle:
     #     print(ang)
     # for dis in dislocation:
-    #     print(type(dis[0]))
+    #     print(dis, type(dis[0]))
 
-    steering_command = [[float(y) for y in x] for x in steering_command]
-    cmd_vel = [[float(y) for y in x] for x in cmd_vel]
+    
     # steering_command = [float(i) for i in steering_command]
     # steering_command = [float(i) for i in steering_command]
 
-    # for i in range(len(steering_command)):
-    #     print(steering_command[i], cmd_vel[i])
+    for i in range(len(steering_command)):
+        print(steering_command[i], cmd_vel[i])
 
