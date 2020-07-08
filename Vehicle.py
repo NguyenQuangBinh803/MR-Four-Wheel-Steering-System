@@ -192,9 +192,8 @@ class Vehicle:
         accel = dislocation_vector.copy()
         accel.setMag(accel.mag() / MR_SCALE)
 
-        # print("Important: ", accel.mag())
         self.angle = dislocation_vector.heading()
-        # print("Important: ", self.angle)
+
         self.center.add(accel)
 
         self.update()

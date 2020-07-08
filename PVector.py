@@ -34,15 +34,16 @@ class PVector:
     def heading(self):
         return math.atan2(self.y, self.x)
 
-    def rotate(self, angle):
+    def rotate(self, dislocation_angle):
         current_angle = self.heading()
-        current_mag = self.mag()
-        self.x = current_mag*math.cos(current_angle + angle)
-        self.y = current_mag*math.sin(current_angle + angle)
+        current_angle += dislocation_angle
+        temp_mag = self.mag()
+
+        self.x = temp_mag * math.cos(current_angle)
+        self.y = temp_mag * math.sin(current_angle)
 
     def setMag(self, x):
-        if self.mag() == 0:
-            return
+
         ratio = x / self.mag()
         self.x = self.x * ratio
         self.y = self.y * ratio

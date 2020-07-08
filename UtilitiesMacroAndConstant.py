@@ -8,8 +8,8 @@ MR_ANGLE = math.atan(MR_HEIGHT / MR_WIDTH)
 MR_DISTANCE_FROM_CENTER = math.sqrt((MR_HEIGHT / 2) * (MR_HEIGHT / 2) + (MR_WIDTH / 2) * (MR_WIDTH / 2))
 SCALE = 10
 MR_SCALE = 5
-CENTER_X = 400
-CENTER_Y = 400
+CENTER_X = 0
+CENTER_Y = 0
 
 # Initailize speed and angle value
 front_left_angle = 0
