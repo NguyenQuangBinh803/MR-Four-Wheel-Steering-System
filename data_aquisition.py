@@ -21,22 +21,27 @@ def nav_test_data_aquisition(filename):
     for line in f:
         string = re.search("mix]:(.*)", line)
         if string:
+
             dislocate = re.search("Dislocation ](.*)", string.group(1))
             if dislocate:
                 dislocation.append(p.findall(dislocate.group(1)))
             time = re.search("time](.*)Time", string.group(1))
+
             if time:
                 angle.append(p.findall(time.group(1)))
             modulus = re.search("vel_modulus](.*)", string.group(1))
+
             if modulus:
                 cmd_vel.append(p.findall(modulus.group(1)))
             speed_command_string = re.search("n,(.*)", string.group(1))
             steer_command_string = re.search("q,(.*)", string.group(1))
+
             if speed_command_string:
                 if len(integer.findall(speed_command_string.group(1))) > 4:
                     speed_command.append(p.findall(speed_command_string.group(1)))
                 else:
                     speed_command.append(integer.findall(speed_command_string.group(1)))
+
             if steer_command_string:
                 print(steer_command_string.group(1))
                 if len(integer.findall(steer_command_string.group(1))) > 4:
@@ -53,7 +58,7 @@ def nav_test_data_aquisition(filename):
 
 if __name__ == "__main__":
     # dislocation, angle, cmd_vel, speed_command, steering_command = nav_test_data_aquisition('202007_test_data/20200704_1207_test_result_hardware')
-    dislocation, angle, cmd_vel, speed_command, steering_command = nav_test_data_aquisition('202007_test_data/20200706_0945_test_result_hardware')
+    dislocation, angle, cmd_vel, speed_command, steering_command = nav_test_data_aquisition('202007_test_data/20200708_1100_test_result_hardware')
 
 
     # Unit test
@@ -73,5 +78,11 @@ if __name__ == "__main__":
     # steering_command = [float(i) for i in steering_command]
 
     for i in range(len(steering_command)):
-        print(steering_command[i], cmd_vel[i])
+        print(dislocation[i])
+        if cmd_vel[i][0] == 0.0 and cmd_vel[i][1] != 0.0:
 
+            print(cmd_vel[i], "\tNavigation is spinning")
+        elif cmd_vel[i][0] == 0.0 and cmd_vel[i][1] == 0.0:
+            print(cmd_vel[i], "\tNavigation is stopped")
+        elif cmd_vel[i][0] != 0.0 and cmd_vel[i][1] != 0.0:
+            print(cmd_vel[i], "\tNavigation is running")

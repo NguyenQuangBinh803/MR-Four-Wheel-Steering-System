@@ -57,6 +57,8 @@ if __name__ == "__main__":
         # dislocation_vector.setMag(dislocation_vector.mag())
 
         dislocation_vector.rotate(cmd[1])
+        if cmd[0] != 0:
+            dislocation_vector.setMag(cmd[0]*10)
         vehicle.follow_vector(dislocation_vector)
 
         front_left_angle = (vehicle.vel_front_left.heading() - vehicle.temporary_left_frame.heading())* 180 / math.pi
