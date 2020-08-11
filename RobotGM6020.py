@@ -45,7 +45,7 @@ class RobotControl:
         '''
         request robot current position
         '''
-        self.__robot_serial_drive.write("5;".encode("utf-8"))
+        self.__robot_serial_drive.write("5,;".encode("utf-8"))
         bytesRead = self.__robot_serial_drive.inWaiting()
         return self.__robot_serial_drive.read(bytesRead)
 
@@ -55,17 +55,17 @@ class RobotControl:
 
     def get_dislocation(self):
         raw_data = str(self.read_command(), 'utf-8').split()
-
+        print(raw_data)
         # Check length of receive buffer with start and end frame
         if (len(raw_data) == LENGTH_OF_DATA_RECEIVE and raw_data[0] == START_FRAME and raw_data[-1] == END_FRAME):
             receive_data = raw_data[1:-1]
         else:
             return []
 
-        distance_front_left = self.convert_string_to_int32(receive_data[1:5])
-        distance_front_right = self.convert_string_to_int32(receive_data[6:10])
-        distance_rear_left = self.convert_string_to_int32(receive_data[11:15])
-        distance_rear_right = self.convert_string_to_int32(receive_data[16:])
+        distance_front_left = int(raw_data[1])
+        distance_front_right = int(raw_data[2])
+        distance_rear_left = int(raw_data[3])
+        distance_rear_right = int(raw_data[4])
         return distance_front_left, distance_front_right, distance_rear_left, distance_rear_right
 
     def write_steer_command(self, command):
