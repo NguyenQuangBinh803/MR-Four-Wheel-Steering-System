@@ -16,18 +16,9 @@ class RobotControl:
             self.__robot_serial_steer = serial.Serial(ports[0], baud_rate, timeout=None)
             self.__robot_serial_drive = serial.Serial(ports[1], baud_rate, timeout=None)
             time.sleep(0.5)
-            # self.__robot_serial.reset_input_buffer()
+
             self.__robot_serial_steer.reset_input_buffer()
             self.__robot_serial_drive.reset_input_buffer()
-            time.sleep(0.1)
-            # self.flush_data_serial()
-            self.__robot_serial_drive.write("start".encode('utf-8'))
-            self.__robot_serial_steer.write("start".encode('utf-8'))
-            # while self.__robot_serial_drive.in_waiting or self.__robot_serial_steer.in_waiting:
-            #     s = self.__robot_serial_drive.readline()
-            #     print(s)
-            #     s = self.__robot_serial_steer.readline()
-            #     print(s)
             time.sleep(0.1)
 
         except serial.serialutil.SerialException as exp:
@@ -75,7 +66,7 @@ if __name__ == "__main__":
 
     print("Testing robot full function")
     robot = RobotControl("/dev/ttyUSB1,/dev/ttyUSB0", 115200)
-    # time.sleep(1)
+
     while True:
         robot.write_steer_command("q,45,45,-45,-45")
         robot.write_drive_command("n,1,1,1,1")
