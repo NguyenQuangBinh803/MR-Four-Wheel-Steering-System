@@ -8,7 +8,7 @@ class RobotControl:
 
     def __init__(self, port, baud_rate):
 
-        self.logging = open("GM6020_test_result/" + datetime.now().strftime("%Y%m%d_%H%M%S_") + ".txt")
+        self.logging = open("GM6020_test_result/" + datetime.now().strftime("%Y%m%d_%H%M%S_") + ".txt", "w")
         ports = port.split(',')
         try:
             self.logging.write("[Openning_serial]")
@@ -20,13 +20,16 @@ class RobotControl:
             self.__robot_serial_steer.reset_input_buffer()
             self.__robot_serial_drive.reset_input_buffer()
             time.sleep(0.1)
+            # self.flush_data_serial()
+            self.__robot_serial_drive.write("start".encode('utf-8'))
+            self.__robot_serial_steer.write("start".encode('utf-8'))
+            # while self.__robot_serial_drive.in_waiting or self.__robot_serial_steer.in_waiting:
+            #     s = self.__robot_serial_drive.readline()
+            #     print(s)
+            #     s = self.__robot_serial_steer.readline()
+            #     print(s)
+            time.sleep(0.1)
 
-            for _ in range(5):
-                self.__robot_serial_drive.write("start")
-                self.__robot_serial_steer.write("start")
-                time.sleep(0.01)
-
-            self.flush_data_serial()
         except serial.serialutil.SerialException as exp:
             self.logging.write("[serial_port]" + str(ports))
             sys.exit(str(exp))
@@ -69,9 +72,11 @@ class RobotControl:
         self.__robot_serial_drive.write(command.encode('utf-8'))
 
 if __name__ == "__main__":
+
+    print("Testing robot full function")
+    robot = RobotControl("/dev/ttyUSB1,/dev/ttyUSB0", 115200)
+    # time.sleep(1)
     while True:
-        print("Testing robot full function")
-        robot = RobotControl("/dev/ttyUSB0,/dev/ttyUSB1", 115200)
         robot.write_steer_command("q,45,45,-45,-45")
         robot.write_drive_command("n,1,1,1,1")
         time.sleep(0.1)
