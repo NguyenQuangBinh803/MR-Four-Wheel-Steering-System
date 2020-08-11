@@ -1,7 +1,7 @@
 import math
 
 # Vehicle sufficient macros
-VEL_SCALE = 5
+VEL_SCALE = 15
 MR_HEIGHT = 30
 MR_WIDTH = 48
 MR_ANGLE = math.atan(MR_HEIGHT / MR_WIDTH)
